@@ -1,0 +1,256 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Sorry Garden</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Parisienne&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  /* Layout: one centered column. A painted scene (mountains, pond, lotus, strawberries) on top, the apology and one button below. */
+  :root {
+    --bg: #fde9f0;
+    --bg-deep: #fbd3e1;
+    --ink: #5a2b3d;
+    --ink-soft: #8a5468;
+    --rose: #e0709a;
+    --petal: #f6a9c3;
+    --petal-light: #fbd0df;
+    --leaf: #8cc2a0;
+    --leaf-deep: #5e9f7b;
+    --mount-far: #e6c8da;
+    --mount-near: #cfa8c8;
+    --berry: #e04a6c;
+    --gold: #f8dc94;
+    --water: #f7cfe0;
+    --font-display: "Parisienne", "Snell Roundhand", cursive;
+    --font-body: "Nunito", "Segoe UI", system-ui, sans-serif;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  body {
+    background-color: var(--bg);
+    background-image: radial-gradient(120% 60% at 50% 0%, #fff4f8 0%, var(--bg) 55%, var(--bg-deep) 100%);
+    background-attachment: fixed;
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.65;
+    padding-inline: 16px;
+    padding-block: 28px 48px;
+  }
+  main { max-width: 620px; margin-inline: auto; display: flex; flex-direction: column; gap: 28px; }
+
+  .scene {
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow: 0 18px 50px -20px rgba(224, 112, 154, .55);
+    background: linear-gradient(#fff3f7, #fbd9e6);
+    line-height: 0;
+  }
+  .scene svg { width: 100%; height: auto; display: block; }
+
+  /* Sky */
+  .sun { animation: glow 6s ease-in-out infinite; transform-origin: 305px 95px; }
+  @keyframes glow { 50% { transform: scale(1.1); opacity: .85; } }
+  .cloud { animation: drift 24s ease-in-out infinite alternate; }
+  .cloud.c2 { animation-duration: 32s; animation-delay: -10s; }
+  @keyframes drift { from { transform: translateX(-14px); } to { transform: translateX(26px); } }
+
+  /* Falling petals */
+  .fall { animation: fall linear infinite; opacity: 0; }
+  @keyframes fall {
+    0% { transform: translate(0, -20px) rotate(0deg); opacity: 0; }
+    12% { opacity: .9; }
+    90% { opacity: .7; }
+    100% { transform: translate(40px, 330px) rotate(240deg); opacity: 0; }
+  }
+
+  /* Water */
+  .ripple { fill: none; stroke: #fff; stroke-opacity: .7; stroke-width: 1.4; transform-box: fill-box; transform-origin: center; animation: ripple 5s ease-out infinite; }
+  .ripple.r2 { animation-delay: -2.5s; }
+  @keyframes ripple { 0% { transform: scale(.3); opacity: .9; } 100% { transform: scale(1.5); opacity: 0; } }
+  .pad { animation: bob 5s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+  .pad.p2 { animation-delay: -2s; }
+  .pad.p3 { animation-delay: -3.5s; }
+
+  /* Lotus */
+  .petal { transform: rotate(0deg) scale(.15); opacity: 0; animation: bloom 2.6s cubic-bezier(.2, .8, .25, 1) forwards, sway 7s ease-in-out 2.6s infinite; }
+  .petal.back { animation-delay: .1s, 2.7s; }
+  .petal.mid { animation-delay: .5s, 3.1s; }
+  .petal.front { animation-delay: .9s, 3.5s; }
+  @keyframes bloom { to { transform: rotate(var(--r)) scale(1); opacity: 1; } }
+  @keyframes sway { 0%, 100% { transform: rotate(var(--r)) scale(1); } 50% { transform: rotate(calc(var(--r) * 1.07)) scale(1.03); } }
+  .lotus-glow { animation: glow 4.5s ease-in-out infinite; transform-origin: 200px 292px; }
+
+  /* Strawberries */
+  .berry { animation: bob 4.2s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+  .berry.b2 { animation-duration: 5s; animation-delay: -1.4s; }
+  .berry.b3 { animation-duration: 4.6s; animation-delay: -2.8s; }
+  @keyframes bob { 0%, 100% { transform: translateY(0) rotate(-3deg); } 50% { transform: translateY(-7px) rotate(3deg); } }
+
+  /* Message */
+  .card { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  h1 { font-family: var(--font-display); font-weight: 400; font-size: clamp(3rem, 14vw, 4.8rem); line-height: 1.05; margin: 0; color: var(--rose); text-wrap: balance; }
+  .lead { margin: 0; max-width: 34em; color: var(--ink); text-wrap: pretty; }
+  .soft { margin: 0; max-width: 34em; color: var(--ink-soft); font-size: .95em; }
+  .namebox { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: center; font-size: .9rem; color: var(--ink-soft); }
+  .namebox input {
+    font: inherit; color: var(--ink); background: #fff8fb; border: 1.5px solid var(--petal); border-radius: 999px; padding: 8px 16px; width: 12rem; max-width: 100%; text-align: center;
+  }
+  .namebox input:focus-visible, button:focus-visible { outline: 3px solid var(--rose); outline-offset: 3px; }
+  button {
+    font: inherit; font-weight: 700; color: #fff; background: linear-gradient(135deg, var(--rose), #ea8fb0); border: 0; border-radius: 999px; padding: 14px 34px; cursor: pointer;
+    box-shadow: 0 10px 24px -10px rgba(224, 112, 154, .9); transition: transform .2s ease, box-shadow .2s ease; position: relative;
+  }
+  button:hover { transform: translateY(-2px) scale(1.03); }
+  button:active { transform: scale(.98); }
+  .thanks { margin: 0; min-height: 3.4em; color: var(--ink); font-weight: 600; opacity: 0; transform: translateY(6px); transition: opacity .6s ease, transform .6s ease; }
+  .thanks.show { opacity: 1; transform: none; }
+  .burst { position: relative; display: inline-flex; }
+  .heart { position: absolute; left: 50%; top: 0; font-size: 20px; color: var(--rose); pointer-events: none; animation: rise 1.8s ease-out forwards; }
+  @keyframes rise { 0% { transform: translate(-50%, 0) scale(.6); opacity: 1; } 100% { transform: translate(calc(-50% + var(--dx)), -120px) scale(1.2); opacity: 0; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .001s !important; animation-iteration-count: 1 !important; animation-delay: 0s !important; }
+    .petal { transform: rotate(var(--r)) scale(1); opacity: 1; }
+  }
+</style>
+
+<main>
+  <div class="scene">
+    <svg viewBox="0 0 400 380" role="img" aria-label="A pink sky over soft mountains, a pond with a blooming lotus and floating strawberries">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#fff2f7"/>
+          <stop offset="1" stop-color="#fcd6e4"/>
+        </linearGradient>
+        <linearGradient id="pond" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#f9d9e6"/>
+          <stop offset="1" stop-color="#f3bcd2"/>
+        </linearGradient>
+        <radialGradient id="halo" cx=".5" cy=".5" r=".5">
+          <stop offset="0" stop-color="#fff" stop-opacity=".95"/>
+          <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+        </radialGradient>
+        <symbol id="berry" viewBox="-22 -26 44 50" overflow="visible">
+          <path d="M0 -13 C15 -14 20 1 9 17 C5 23 -5 23 -9 17 C-20 1 -15 -14 0 -13Z" fill="#e04a6c"/>
+          <path d="M-8 -6 C-6 4 -3 12 0 18" stroke="#ee7b93" stroke-width="3" fill="none" stroke-linecap="round" opacity=".55"/>
+          <g fill="#ffe9b8">
+            <ellipse cx="-6" cy="-2" rx="1.1" ry="1.8"/><ellipse cx="5" cy="-3" rx="1.1" ry="1.8"/>
+            <ellipse cx="0" cy="3" rx="1.1" ry="1.8"/><ellipse cx="-8" cy="8" rx="1.1" ry="1.8"/>
+            <ellipse cx="8" cy="7" rx="1.1" ry="1.8"/><ellipse cx="0" cy="12" rx="1.1" ry="1.8"/>
+          </g>
+          <path d="M0 -13 L-9 -19 L-4 -12 L-12 -12 L-3 -9 Z M0 -13 L9 -19 L4 -12 L12 -12 L3 -9 Z M0 -13 L0 -22 L3 -13 Z" fill="#7fb894"/>
+        </symbol>
+        <path id="petal" d="M0 0 C-15 -18 -13 -48 0 -66 C13 -48 15 -18 0 0Z"/>
+      </defs>
+
+      <rect width="400" height="380" fill="url(#sky)"/>
+
+      <!-- Sun -->
+      <g class="sun">
+        <circle cx="305" cy="95" r="70" fill="url(#halo)"/>
+        <circle cx="305" cy="95" r="34" fill="#f8dc94" opacity=".9"/>
+      </g>
+
+      <!-- Clouds -->
+      <g class="cloud" fill="#fff" opacity=".85">
+        <ellipse cx="80" cy="70" rx="34" ry="11"/><ellipse cx="102" cy="62" rx="22" ry="11"/><ellipse cx="62" cy="64" rx="18" ry="9"/>
+      </g>
+      <g class="cloud c2" fill="#fff" opacity=".7">
+        <ellipse cx="190" cy="40" rx="28" ry="8"/><ellipse cx="206" cy="35" rx="16" ry="8"/>
+      </g>
+
+      <!-- Mountains -->
+      <path d="M-10 270 L80 135 L132 205 L214 100 L318 228 L370 168 L410 215 L410 300 L-10 300Z" fill="#e6c8da"/>
+      <path d="M214 100 L192 134 L205 130 L214 142 L226 128 L240 134Z" fill="#fff7fa" opacity=".9"/>
+      <path d="M80 135 L64 160 L76 156 L84 166 L96 156Z" fill="#fff7fa" opacity=".85"/>
+      <path d="M-10 292 L60 215 L128 270 L206 202 L296 280 L352 236 L410 275 L410 320 L-10 320Z" fill="#cfa8c8"/>
+      <path d="M-10 310 L410 310 L410 330 L-10 330Z" fill="#b98fb4" opacity=".35"/>
+
+      <!-- Pond -->
+      <path d="M0 292 Q200 278 400 292 L400 380 L0 380Z" fill="url(#pond)"/>
+      <ellipse class="ripple" cx="110" cy="340" rx="42" ry="9"/>
+      <ellipse class="ripple r2" cx="300" cy="350" rx="48" ry="10"/>
+      <ellipse class="ripple r2" cx="200" cy="318" rx="60" ry="10"/>
+
+      <!-- Lily pads -->
+      <g class="pad"><ellipse cx="120" cy="338" rx="30" ry="9" fill="#8cc2a0"/><path d="M120 338 L146 331" stroke="#fde9f0" stroke-width="1.5"/></g>
+      <g class="pad p2"><ellipse cx="292" cy="348" rx="34" ry="10" fill="#7fb894"/><path d="M292 348 L318 341" stroke="#fde9f0" stroke-width="1.5"/></g>
+      <g class="pad p3"><ellipse cx="200" cy="316" rx="62" ry="13" fill="#8cc2a0"/><path d="M200 316 L246 308" stroke="#fde9f0" stroke-width="1.5"/></g>
+
+      <!-- Lotus -->
+      <circle class="lotus-glow" cx="200" cy="262" r="64" fill="url(#halo)"/>
+      <g transform="translate(200 312)">
+        <use href="#petal" class="petal back" style="--r:-62deg" fill="#f2a0bd"/>
+        <use href="#petal" class="petal back" style="--r:62deg" fill="#f2a0bd"/>
+        <use href="#petal" class="petal mid" style="--r:-34deg" fill="#f6b0c9"/>
+        <use href="#petal" class="petal mid" style="--r:34deg" fill="#f6b0c9"/>
+        <use href="#petal" class="petal mid" style="--r:0deg" fill="#f9bfd4"/>
+        <use href="#petal" class="petal front" style="--r:-16deg" fill="#fbd0df" transform-origin="0 0"/>
+        <use href="#petal" class="petal front" style="--r:16deg" fill="#fbd0df"/>
+        <ellipse cx="0" cy="-9" rx="9" ry="6" fill="#f8dc94"/>
+      </g>
+
+      <!-- Strawberries -->
+      <g class="berry"><use href="#berry" x="-17" y="-20" width="34" height="40" transform="translate(70 270)"/></g>
+      <g class="berry b2"><use href="#berry" x="-17" y="-20" width="34" height="40" transform="translate(335 262) scale(1.1)"/></g>
+      <g class="berry b3"><use href="#berry" x="-17" y="-20" width="34" height="40" transform="translate(262 318) scale(.8)"/></g>
+      <g class="berry b2"><use href="#berry" x="-17" y="-20" width="34" height="40" transform="translate(140 322) scale(.7)"/></g>
+
+      <!-- Falling petals -->
+      <g fill="#f6a9c3">
+        <path class="fall" style="animation-duration:11s;animation-delay:0s" transform="translate(60 0)" d="M0 0 C-4 -5 -3 -11 0 -14 C3 -11 4 -5 0 0Z"/>
+        <path class="fall" style="animation-duration:14s;animation-delay:-4s" transform="translate(150 0)" d="M0 0 C-4 -5 -3 -11 0 -14 C3 -11 4 -5 0 0Z"/>
+        <path class="fall" style="animation-duration:12s;animation-delay:-7s" transform="translate(240 0)" d="M0 0 C-4 -5 -3 -11 0 -14 C3 -11 4 -5 0 0Z"/>
+        <path class="fall" style="animation-duration:16s;animation-delay:-2s" transform="translate(320 0)" d="M0 0 C-4 -5 -3 -11 0 -14 C3 -11 4 -5 0 0Z"/>
+        <path class="fall" style="animation-duration:13s;animation-delay:-9s" transform="translate(30 0)" d="M0 0 C-4 -5 -3 -11 0 -14 C3 -11 4 -5 0 0Z"/>
+      </g>
+    </svg>
+  </div>
+
+  <section class="card">
+    <h1 id="title">I'm sorry</h1>
+    <p class="lead">I hurt you, and I wish I could take it back. You deserved better from me, and I'm sorry for the way I made you feel.</p>
+    <p class="soft">I'm not asking you to forget it. I'm asking for a chance to listen and to do better.</p>
+
+    <label class="namebox" for="name">Her name
+      <input id="name" type="text" placeholder="Type her name" maxlength="30" autocomplete="off">
+    </label>
+
+    <div class="burst" id="burst">
+      <button id="forgive" type="button">Forgive me?</button>
+    </div>
+    <p class="thanks" id="thanks" aria-live="polite">Thank you for hearing me out.</p>
+  </section>
+</main>
+
+<script>
+  (function () {
+    var nameEl = document.getElementById('name');
+    var title = document.getElementById('title');
+    var thanks = document.getElementById('thanks');
+    var burst = document.getElementById('burst');
+    var btn = document.getElementById('forgive');
+
+    nameEl.addEventListener('input', function () {
+      var n = nameEl.value.trim();
+      title.textContent = n ? "I'm sorry, " + n : "I'm sorry";
+    });
+
+    btn.addEventListener('click', function () {
+      var n = nameEl.value.trim();
+      thanks.textContent = n ? "Thank you for hearing me out, " + n + "." : "Thank you for hearing me out.";
+      thanks.classList.add('show');
+      for (var i = 0; i < 9; i++) {
+        var h = document.createElement('span');
+        h.className = 'heart';
+        h.textContent = i % 3 === 0 ? '♥' : '❤';
+        h.style.setProperty('--dx', (Math.random() * 140 - 70) + 'px');
+        h.style.animationDelay = (i * 0.07) + 's';
+        h.style.color = i % 2 ? '#e0709a' : '#e04a6c';
+        burst.appendChild(h);
+        (function (el) { setTimeout(function () { el.remove(); }, 2400); })(h);
+      }
+    });
+  })();
+</script>
+
+</body></html>
